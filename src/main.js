@@ -4,10 +4,22 @@ import router from "./router";
 import store from "./store";
 import "./registerServiceWorker";
 
+// axios
 import axios from "axios";
 import VueAxios from "vue-axios";
 axios.defaults.withCredentials = true;
 Vue.use(VueAxios, axios);
+
+// fontawesome
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+import { far } from "@fortawesome/free-regular-svg-icons";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+// library.add(faUserSecret);
+// Vue.component("font-awesome-icon", FontAwesomeIcon);
+library.add(fab, far, fas);
+Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 Vue.config.productionTip = false;
 
@@ -22,13 +34,8 @@ router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
     const api = `${process.env.VUE_APP_API}/api/user/check`;
     axios.post(api).then(response => {
-      if (response.data.success) {
-        next();
-      } else {
-        next({
-          path: "/login"
-        });
-      }
+      if (response.data.success) next();
+      else next({ path: "/login" });
     });
   } else {
     next();
