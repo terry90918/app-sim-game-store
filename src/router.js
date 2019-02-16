@@ -7,8 +7,8 @@ import Admin from "./views/Admin";
 
 // components
 import Login from "./components/Login.vue";
-import Dashboard from "./components/Dashboard";
-import Products from "./components/Products";
+import Main from "./components/admin/Main";
+import Products from "./components/admin/Products";
 
 Vue.use(Router);
 
@@ -16,15 +16,12 @@ export default new Router({
   routes: [
     {
       path: "*",
-      redirect: "login"
+      redirect: "/"
     },
     {
       path: "/",
       name: "home",
-      component: Home,
-      meta: {
-        requiresAuth: true
-      }
+      component: Home
     },
     {
       path: "/login",
@@ -33,23 +30,20 @@ export default new Router({
     },
     {
       path: "/admin",
+      // name: "admin",
       component: Admin,
       children: [
         {
           path: "",
-          name: "dashboard",
-          component: Dashboard,
-          meta: {
-            requiresAuth: true
-          }
+          name: "Main",
+          component: Main,
+          meta: { requiresAuth: true }
         },
         {
           path: "products",
           name: "products",
           component: Products,
-          meta: {
-            requiresAuth: true
-          }
+          meta: { requiresAuth: true }
         }
       ]
     }

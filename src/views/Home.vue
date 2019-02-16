@@ -1,16 +1,17 @@
 <template>
   <div class="home">
-    <Logout />
+    <Status />
+    <router-link to="login" class="btn btn-primary">登入</router-link>
   </div>
 </template>
 
 <script>
-import Logout from "@/components/Logout.vue";
+import Status from "@/components/Status.vue";
 
 export default {
   name: "home",
   components: {
-    Logout
+    Status
   }
 };
 </script>

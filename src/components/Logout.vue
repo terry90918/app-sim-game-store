@@ -1,34 +1,18 @@
 <template>
-  <div class="p-2">
-    <p>狀態: {{ status }}</p>
+  <div>
     <button @click="signout" class="btn btn-primary">登出</button>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Logout",
+  name: "logout",
   data() {
     return {
-      res: null,
-      status: ""
+      res: null
     };
   },
-  mounted() {
-    this.userCheck();
-  },
   methods: {
-    userCheck() {
-      const vm = this;
-      const api = `${process.env.VUE_APP_API}/api/user/check`;
-      vm.axios.post(api).then(response => {
-        if (response.data.success) {
-          vm.status = "已登入";
-        } else {
-          vm.status = "未登入";
-        }
-      });
-    },
     signout() {
       const api = `${process.env.VUE_APP_API}/logout`;
       const vm = this;

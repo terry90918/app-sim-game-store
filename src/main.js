@@ -21,6 +21,21 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 library.add(fab, far, fas);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
+// bootstrap
+import "bootstrap";
+
+// vue-loading
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
+Vue.component("Loading", Loading);
+
+// event bus
+import "./bus";
+
+// filter
+import currencyFilter from "./filters/currency";
+Vue.filter("currency", currencyFilter);
+
 Vue.config.productionTip = false;
 
 new Vue({

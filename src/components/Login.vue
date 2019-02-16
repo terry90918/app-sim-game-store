@@ -46,7 +46,7 @@
 
 <script>
 export default {
-  name: "Login",
+  name: "login",
   data() {
     return {
       user: {
@@ -63,7 +63,7 @@ export default {
       this.axios.post(api, vm.user).then(response => {
         vm.res = response.data;
         if (vm.res.success) {
-          vm.$router.push("/");
+          vm.$router.push("/admin");
         }
       });
     }
