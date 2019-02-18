@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  name: "Navbar",
+  name: "alert-message",
   data() {
     return {
       messages: []
@@ -53,15 +53,18 @@ export default {
   },
   created() {
     const vm = this;
-    /* === 自定義名稱 "messsage:push" === */
-    // message: 傳入參數[字串]，預設值為 提示訊息
-    // status: 樣式[BS4樣式]，預設值為 warning
+    /**
+     * Alert Message
+     * messsage:push
+     * message(String): default = 提示訊息
+     * status(String): default = warning, Bootstrap4 Aler Style
+     */
     // $on 註冊
     vm.$bus.$on("messsage:push", (message = "提示訊息", status = "warning") => {
       vm.updateMessage(message, status);
     });
     // $emit 呼叫
-    // vm.$bus.$emit("messsage:push");
+    // vm.$bus.$emit("messsage:push", message, status);
   }
 };
 </script>

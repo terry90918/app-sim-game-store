@@ -2,7 +2,9 @@ import Vue from "vue";
 
 Vue.prototype.$bus = new Vue();
 
-// Message
-// vm.$bus.$emit('messsage:push', message, status);
-// message(String): 訊息內容
-// status(String): Bootstrap Alert 的樣式
+/**
+ * Alert Message
+ * messsage:push
+ * message(String): default = 提示訊息
+ * status(String): default = warning, Bootstrap4 Aler Style
+ */

@@ -7,7 +7,7 @@
           class="page-link"
           href="#"
           aria-label="Previous"
-          @click.prevent="getProducts(pagination.current_page - 1)"
+          @click.prevent="updatePagination(pagination.current_page - 1)"
         >
           <span aria-hidden="true">&laquo;</span>
           <span class="sr-only">Previous</span>
@@ -19,7 +19,7 @@
         :key="page"
         :class="{ active: pagination.current_page === page }"
       >
-        <a class="page-link" href="#" @click.prevent="getProducts(page)">
+        <a class="page-link" href="#" @click.prevent="updatePagination(page)">
           {{ page }}
         </a>
       </li>
@@ -28,7 +28,7 @@
           class="page-link"
           href="#"
           aria-label="Next"
-          @click.prevent="getProducts(pagination.current_page + 1)"
+          @click.prevent="updatePagination(pagination.current_page + 1)"
         >
           <span aria-hidden="true">&raquo;</span>
           <span class="sr-only">Next</span>
@@ -56,7 +56,7 @@ export default {
     }
   },
   methods: {
-    getProducts(number) {
+    updatePagination(number) {
       this.$emit("update:pagination", number);
     }
   }

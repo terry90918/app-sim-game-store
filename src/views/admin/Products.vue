@@ -1,10 +1,10 @@
 <template>
-  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 pt-5">
+  <div>
     <loading :active.sync="isLoading"></loading>
     <h2>Section title</h2>
     <!-- 建立新產品 -->
     <div class="text-right mt-4">
-      <button class="btn btn-primary" @click="openModal(true)">
+      <button class="btn btn-primary" @click="openModalEdit(true)">
         建立新產品
       </button>
     </div>
@@ -15,11 +15,11 @@
         <thead>
           <tr>
             <th width="120">分類</th>
-            <th>產品名稱</th>
+            <th width="240">產品名稱</th>
             <th width="120">原價</th>
             <th width="120">售價</th>
-            <th width="100">是否啟用</th>
-            <th width="80">編輯</th>
+            <th width="120">是否啟用</th>
+            <th width="120">編輯</th>
           </tr>
         </thead>
         <tbody>
@@ -33,12 +33,20 @@
               <span v-else>未啟用</span>
             </td>
             <td>
-              <button
-                class="btn btn-outline-primary btn-sm"
-                @click="openModal(false, item)"
-              >
-                編輯
-              </button>
+              <div class="btn-group">
+                <button
+                  class="btn btn-outline-primary btn-sm"
+                  @click="openModalEdit(false, item)"
+                >
+                  編輯
+                </button>
+                <button
+                  class="btn btn-outline-danger btn-sm"
+                  @click="openModalDelete(item)"
+                >
+                  刪除
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -48,19 +56,19 @@
     <!-- 分頁 -->
     <Pagination @update:pagination="getProducts" :pagination="pagination" />
 
-    <!-- Modal -->
+    <!-- Modal Edit -->
     <div
       class="modal fade"
-      id="productModal"
+      id="modal-edit"
       tabindex="-1"
       role="dialog"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="modal-edit-label"
       aria-hidden="true"
     >
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content border-0">
           <div class="modal-header bg-dark text-white">
-            <h5 class="modal-title" id="exampleModalLabel">新增產品</h5>
+            <h5 class="modal-title" id="modal-edit-label">新增產品</h5>
             <button
               type="button"
               class="close"
@@ -84,8 +92,8 @@
                   />
                 </div>
                 <div class="form-group">
-                  <label for="customFile">
-                    或 上傳圖片
+                  <label for="customFile"
+                    >或 上傳圖片
                     <font-awesome-icon
                       icon="spinner"
                       spin
@@ -100,7 +108,7 @@
                     @change="uploadFile"
                   />
                 </div>
-                <img class="img-fluid" :src="tempProduct.imageUrl" alt="" />
+                <img class="img-fluid" :src="tempProduct.imageUrl" alt />
               </div>
               <div class="col-sm-8">
                 <div class="form-group">
@@ -159,9 +167,7 @@
                     />
                   </div>
                 </div>
-
                 <hr />
-
                 <div class="form-group">
                   <label for="description">產品描述</label>
                   <textarea
@@ -192,9 +198,9 @@
                       :false-value="0"
                       id="is_enabled"
                     />
-                    <label class="form-check-label" for="is_enabled">
-                      是否啟用
-                    </label>
+                    <label class="form-check-label" for="is_enabled"
+                      >是否啟用</label
+                    >
                   </div>
                 </div>
               </div>
@@ -219,7 +225,51 @@
         </div>
       </div>
     </div>
-  </main>
+    <!-- Modal Delete -->
+    <div
+      class="modal fade"
+      id="modal-delete"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="modal-delete-label"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content border-0">
+          <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title" id="modal-delete-label">
+              <span>刪除產品</span>
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            是否刪除
+            <strong class="text-danger">{{ tempProduct.title }}</strong>
+            商品(刪除後將無法恢復)。
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              data-dismiss="modal"
+            >
+              取消
+            </button>
+            <button type="button" class="btn btn-danger" @click="deletePouduct">
+              確認刪除
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -256,11 +306,10 @@ export default {
 
       vm.axios.delete(api).then(response => {
         if (response.data.success) {
-          $("#productModal").modal("hide");
+          $("#modal-delete").modal("hide");
           vm.getProducts();
         } else {
-          $("#productModal").modal("hide");
-          vm.getProducts();
+          vm.$bus.$emit("messsage:push", response.data.message, "danger"); // 呼叫 alert
         }
       });
     },
@@ -274,12 +323,22 @@ export default {
       vm.isLoading = true; // 開始 - 過場動畫
       vm.axios.get(api).then(response => {
         vm.isLoading = false; // 結束 - 過場動畫
-        vm.pagination = response.data.pagination; // 分頁
-        vm.products = response.data.products; // 產品
+        if (response.data.success) {
+          vm.pagination = response.data.pagination; // 分頁
+          vm.products = response.data.products; // 產品
+        } else {
+          vm.$bus.$emit("messsage:push", response.data.message, "danger"); // 呼叫 alert
+        }
       });
     },
-    // 開啟 Modal
-    openModal(isNew, item) {
+    // 開啟 Modal Delete
+    openModalDelete(item) {
+      const vm = this;
+      $("#modal-delete").modal("show");
+      vm.tempProduct = Object.assign({}, item);
+    },
+    // 開啟 Modal Edit
+    openModalEdit(isNew, item) {
       if (isNew) {
         this.tempProduct = {};
         this.isNew = true;
@@ -287,7 +346,7 @@ export default {
         this.tempProduct = Object.assign({}, item);
         this.isNew = false;
       }
-      $("#productModal").modal("show");
+      $("#modal-edit").modal("show");
     },
     // 取得商品列表 or 修改產品
     updateProduct() {
@@ -307,13 +366,13 @@ export default {
         }/admin/product/${vm.tempProduct.id}`;
         httpMethod = "put";
       }
-      this.axios[httpMethod](api, { data: vm.tempProduct }).then(response => {
+
+      vm.axios[httpMethod](api, { data: vm.tempProduct }).then(response => {
+        $("#modal-edit").modal("hide");
         if (response.data.success) {
-          $("#productModal").modal("hide");
           vm.getProducts();
         } else {
-          $("#productModal").modal("hide");
-          vm.getProducts();
+          vm.$bus.$emit("messsage:push", response.data.message, "danger"); // 呼叫 alert
         }
       });
     },
@@ -337,7 +396,7 @@ export default {
           if (response.data.success) {
             vm.$set(vm.tempProduct, "imageUrl", response.data.imageUrl);
           } else {
-            this.$bus.$emit("messsage:push", response.data.message, "danger"); // 呼叫 alert
+            vm.$bus.$emit("messsage:push", response.data.message, "danger"); // 呼叫 alert
           }
         });
     }

@@ -32,9 +32,11 @@ Vue.component("Loading", Loading);
 // event bus
 import "./bus";
 
-// filter
+// filters
 import currencyFilter from "./filters/currency";
+import dateFilter from "./filters/date";
 Vue.filter("currency", currencyFilter);
+Vue.filter("date", dateFilter);
 
 Vue.config.productionTip = false;
 
