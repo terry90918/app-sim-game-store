@@ -370,7 +370,7 @@ export default {
       vm.axios[httpMethod](api, { data: vm.tempProduct }).then(response => {
         $("#modal-edit").modal("hide");
         if (response.data.success) {
-          vm.getProducts();
+          vm.getProducts(vm.pagination.current_page);
         } else {
           vm.$bus.$emit("messsage:push", response.data.message, "danger"); // 呼叫 alert
         }
