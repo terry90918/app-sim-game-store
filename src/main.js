@@ -38,6 +38,12 @@ import dateFilter from "./filters/date";
 Vue.filter("currency", currencyFilter);
 Vue.filter("date", dateFilter);
 
+// vee-validate
+import VeeValidate from "vee-validate";
+import zhTWValidate from "vee-validate/dist/locale/zh_TW";
+VeeValidate.Validator.localize("zh_TW", zhTWValidate);
+Vue.use(VeeValidate);
+
 Vue.config.productionTip = false;
 
 new Vue({
