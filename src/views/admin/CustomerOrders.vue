@@ -16,7 +16,7 @@
             <h5 class="card-title">
               <a href="#" class="text-dark">{{ item.title }}</a>
             </h5>
-            <p class="card-text">{{ item.content }}</p>
+            <p class="card-text">{{ item.content.slice(0, 50) + "..." }}</p>
             <div class="d-flex justify-content-between align-items-baseline">
               <div class="h5" v-if="!item.price">
                 {{ item.origin_price }} 元
