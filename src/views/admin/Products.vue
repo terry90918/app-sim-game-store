@@ -311,7 +311,7 @@ export default {
           $("#modal-delete").modal("hide");
           vm.getProducts();
         } else {
-          vm.$bus.$emit("messsage:push", response.data.message, "danger"); // 呼叫 alert
+          vm.$bus.$emit("message:push", response.data.message, "danger"); // 呼叫 alert
         }
       });
     },
@@ -329,7 +329,7 @@ export default {
           vm.pagination = response.data.pagination; // 分頁
           vm.products = response.data.products; // 產品
         } else {
-          vm.$bus.$emit("messsage:push", response.data.message, "danger"); // 呼叫 alert
+          vm.$bus.$emit("message:push", response.data.message, "danger"); // 呼叫 alert
         }
       });
     },
@@ -374,7 +374,7 @@ export default {
         if (response.data.success) {
           vm.getProducts(vm.pagination.current_page);
         } else {
-          vm.$bus.$emit("messsage:push", response.data.message, "danger"); // 呼叫 alert
+          vm.$bus.$emit("message:push", response.data.message, "danger"); // 呼叫 alert
         }
       });
     },
@@ -398,12 +398,10 @@ export default {
           if (response.data.success) {
             vm.$set(vm.tempProduct, "imageUrl", response.data.imageUrl);
           } else {
-            vm.$bus.$emit("messsage:push", response.data.message, "danger"); // 呼叫 alert
+            vm.$bus.$emit("message:push", response.data.message, "danger"); // 呼叫 alert
           }
         });
     }
   }
 };
 </script>
-
-<style></style>

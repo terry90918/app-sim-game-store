@@ -60,16 +60,16 @@ export default {
      * status(String): default = warning, Bootstrap4 Aler Style
      */
     // $on 註冊
-    vm.$bus.$on("messsage:push", (message = "提示訊息", status = "warning") => {
+    vm.$bus.$on("message:push", (message = "提示訊息", status = "warning") => {
       vm.updateMessage(message, status);
     });
     // $emit 呼叫
-    // vm.$bus.$emit("messsage:push", message, status);
+    // vm.$bus.$emit("message:push", message, status);
   }
 };
 </script>
 
-<style scope>
+<style lang="scss" scope>
 .message-alert {
   position: fixed;
   max-width: 50%;

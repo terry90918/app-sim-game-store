@@ -316,10 +316,10 @@ export default {
       vm.axios.post(api, { data: coupon }).then(response => {
         vm.isLoading = false;
         if (response.data.success) {
-          vm.$bus.$emit("messsage:push", response.data.message, "success");
+          vm.$bus.$emit("message:push", response.data.message, "success");
           vm.getCart();
         } else {
-          vm.$bus.$emit("messsage:push", response.data.message, "danger");
+          vm.$bus.$emit("message:push", response.data.message, "danger");
         }
       });
     },
@@ -335,10 +335,11 @@ export default {
       vm.axios.post(api, { data: cart }).then(response => {
         vm.status.loadingItem = "";
         if (response.data.success) {
-          vm.getCart();
+          vm.$bus.$emit("message:push", response.data.message, "success");
           $("#modal-edit").modal("hide");
+          vm.getCart();
         } else {
-          vm.$bus.$emit("messsage:push", response.data.message, "danger");
+          vm.$bus.$emit("message:push", response.data.message, "danger");
         }
       });
     },
@@ -357,14 +358,13 @@ export default {
           vm.axios.post(api, { data: order }).then(response => {
             vm.isLoading = false;
             if (response.data.success) {
-              vm.$bus.$emit("messsage:push", "訂單已建立", "success");
-              vm.getCart();
+              vm.$bus.$emit("message:push", "訂單已建立", "success");
             } else {
-              vm.$bus.$emit("messsage:push", response.data.message, "danger");
+              vm.$bus.$emit("message:push", response.data.message, "danger");
             }
           });
         } else {
-          vm.$bus.$emit("messsage:push", "欄位不完整", "danger");
+          vm.$bus.$emit("message:push", "欄位不完整", "danger");
         }
       });
     },
@@ -379,9 +379,10 @@ export default {
       vm.axios.get(api).then(response => {
         vm.isLoading = false;
         if (response.data.success) {
+          vm.$bus.$emit("message:push", response.data.message, "success");
           vm.cart = response.data.data;
         } else {
-          vm.$bus.$emit("messsage:push", response.data.message, "danger");
+          vm.$bus.$emit("message:push", response.data.message, "danger");
         }
       });
     },
@@ -397,9 +398,10 @@ export default {
         vm.status.loadingItem = "";
         if (response.data.success) {
           vm.product = response.data.product;
+          vm.$bus.$emit("message:push", response.data.message, "success");
           $("#modal-edit").modal("show");
         } else {
-          vm.$bus.$emit("messsage:push", response.data.message, "danger");
+          vm.$bus.$emit("message:push", response.data.message, "danger");
         }
       });
     },
@@ -415,8 +417,9 @@ export default {
         vm.isLoading = false;
         if (response.data.success) {
           vm.products = response.data.products;
+          vm.$bus.$emit("message:push", response.data.message, "success");
         } else {
-          vm.$bus.$emit("messsage:push", response.data.message, "danger");
+          vm.$bus.$emit("message:push", response.data.message, "danger");
         }
       });
     },
@@ -431,10 +434,10 @@ export default {
       vm.axios.delete(api).then(response => {
         vm.isLoading = false;
         if (response.data.success) {
-          vm.$bus.$emit("messsage:push", response.data.message, "success");
+          vm.$bus.$emit("message:push", response.data.message, "success");
           vm.getCart();
         } else {
-          vm.$bus.$emit("messsage:push", response.data.message, "danger");
+          vm.$bus.$emit("message:push", response.data.message, "danger");
         }
       });
     }
