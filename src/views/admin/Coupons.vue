@@ -134,6 +134,7 @@
 import $ from "jquery";
 
 export default {
+  name: "coupons",
   props: {
     config: Object
   },
