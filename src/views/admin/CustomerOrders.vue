@@ -359,6 +359,7 @@ export default {
             vm.isLoading = false;
             if (response.data.success) {
               vm.$bus.$emit("message:push", "訂單已建立", "success");
+              vm.$router.push(`/customer-checkout/${response.data.orderId}`);
             } else {
               vm.$bus.$emit("message:push", response.data.message, "danger");
             }

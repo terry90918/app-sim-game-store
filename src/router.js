@@ -4,6 +4,7 @@ import Router from "vue-router";
 import Admin from "./views/admin/Admin.vue";
 import Coupons from "./views/admin/Coupons.vue";
 import CustomerOrder from "./views/admin/CustomerOrders";
+import CustomerCheckout from "./views/admin/CustomerCheckout";
 // import Home from "./views/Home.vue";
 import Login from "./views/auth/Login.vue";
 import DashboardMain from "./views/admin/DashboardMain.vue";
@@ -69,6 +70,11 @@ export default new Router({
           path: "customer-order",
           name: "customer-order",
           component: CustomerOrder
+        },
+        {
+          path: "customer-checkout",
+          name: "customer-checkout",
+          component: CustomerCheckout
         }
       ]
     }

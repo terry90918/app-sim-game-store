@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="text-right">
+    <Loading :active.sync="isLoading"></Loading>
+    <div class="text-right mt-4">
       <button class="btn btn-primary" @click="openCouponModal(true)">
         建立新的優惠券
       </button>
@@ -106,9 +107,9 @@
                   v-model="tempCoupon.is_enabled"
                   id="is_enabled"
                 />
-                <label class="form-check-label" for="is_enabled"
-                  >是否啟用</label
-                >
+                <label class="form-check-label" for="is_enabled">
+                  是否啟用
+                </label>
               </div>
             </div>
           </div>
