@@ -1,12 +1,14 @@
 <template>
   <div>
     <loading :active.sync="isLoading"></loading>
-    <h2>Section title</h2>
     <!-- 建立新產品 -->
-    <div class="text-right mt-4">
-      <button class="btn btn-primary" @click="openModalEdit(true)">
-        建立新產品
-      </button>
+    <div class="d-flex my-3">
+      <h2>Section title</h2>
+      <div class="ml-auto">
+        <button class="btn btn-primary" @click="openModalEdit(true)">
+          建立新產品
+        </button>
+      </div>
     </div>
 
     <!-- 商品列表 -->
