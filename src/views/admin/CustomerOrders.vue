@@ -225,9 +225,10 @@ export default {
       vm.axios.post(api, { data: coupon }).then(response => {
         vm.isLoading = false;
         if (response.data.success) {
+          vm.$bus.$emit("messsage:push", response.data.message, "success");
           vm.getCart();
         } else {
-          vm.$bus.$emit("messsage:push", response.data.message, "danger"); // 呼叫 alert
+          vm.$bus.$emit("messsage:push", response.data.message, "danger");
         }
       });
     },
@@ -246,7 +247,7 @@ export default {
           vm.getCart();
           $("#modal-edit").modal("hide");
         } else {
-          vm.$bus.$emit("messsage:push", response.data.message, "danger"); // 呼叫 alert
+          vm.$bus.$emit("messsage:push", response.data.message, "danger");
         }
       });
     },
@@ -263,7 +264,7 @@ export default {
         if (response.data.success) {
           vm.cart = response.data.data;
         } else {
-          vm.$bus.$emit("messsage:push", response.data.message, "danger"); // 呼叫 alert
+          vm.$bus.$emit("messsage:push", response.data.message, "danger");
         }
       });
     },
@@ -281,7 +282,7 @@ export default {
           vm.product = response.data.product;
           $("#modal-edit").modal("show");
         } else {
-          vm.$bus.$emit("messsage:push", response.data.message, "danger"); // 呼叫 alert
+          vm.$bus.$emit("messsage:push", response.data.message, "danger");
         }
       });
     },
@@ -298,7 +299,7 @@ export default {
         if (response.data.success) {
           vm.products = response.data.products;
         } else {
-          vm.$bus.$emit("messsage:push", response.data.message, "danger"); // 呼叫 alert
+          vm.$bus.$emit("messsage:push", response.data.message, "danger");
         }
       });
     },
@@ -311,10 +312,12 @@ export default {
 
       vm.isLoading = true;
       vm.axios.delete(api).then(response => {
+        vm.isLoading = false;
         if (response.data.success) {
+          vm.$bus.$emit("messsage:push", response.data.message, "success");
           vm.getCart();
         } else {
-          vm.$bus.$emit("messsage:push", response.data.message, "danger"); // 呼叫 alert
+          vm.$bus.$emit("messsage:push", response.data.message, "danger");
         }
       });
     }
