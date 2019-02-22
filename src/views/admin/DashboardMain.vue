@@ -23,7 +23,7 @@
 import Chart from "chart.js";
 
 export default {
-  name: "main",
+  name: "dashboard-main",
   data() {
     return {
       myChart: null
