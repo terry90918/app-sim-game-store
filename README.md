@@ -1,4 +1,4 @@
-# app-the-legend-of-zelda
+# app-sim-game-store
 
 ## Project setup
 ```
