@@ -296,7 +296,8 @@ export default {
     };
   },
   mounted() {
-    this.getProducts();
+    const vm = this;
+    vm.getProducts();
   },
   methods: {
     // 刪除產品

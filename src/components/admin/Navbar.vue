@@ -23,8 +23,8 @@ export default {
   methods: {
     signout() {
       const vm = this;
-      const url = `${process.env.APIPATH}/logout`;
-      this.axios.post(url).then(response => {
+      const api = `${process.env.VUE_APP_API}/logout`;
+      this.axios.post(api).then(response => {
         if (response.data.success) vm.$router.push("/signin");
       });
     }
