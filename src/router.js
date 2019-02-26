@@ -5,7 +5,7 @@ import Admin from "./views/admin/Admin.vue";
 import Coupons from "./views/admin/Coupons.vue";
 import CustomerOrder from "./views/admin/CustomerOrders";
 import CustomerCheckout from "./views/admin/CustomerCheckout";
-// import Home from "./views/Home.vue";
+import Home from "./views/Home.vue";
 import Login from "./views/auth/Login.vue";
 import DashboardMain from "./views/admin/DashboardMain.vue";
 import Orders from "./views/admin/Orders.vue";
@@ -20,11 +20,11 @@ export default new Router({
       path: "*",
       redirect: "/"
     },
-    // {
-    //   path: "/",
-    //   name: "home",
-    //   component: Home
-    // },
+    {
+      path: "/",
+      name: "home",
+      component: Home
+    },
     {
       path: "/login",
       name: "login",
@@ -48,6 +48,16 @@ export default new Router({
           meta: { requiresAuth: true }
         },
         {
+          path: "customer-order",
+          name: "customer-order",
+          component: CustomerOrder
+        },
+        {
+          path: "customer-checkout",
+          name: "customer-checkout",
+          component: CustomerCheckout
+        },
+        {
           path: "orders",
           name: "orders",
           component: Orders,
@@ -58,23 +68,6 @@ export default new Router({
           name: "products",
           component: Products,
           meta: { requiresAuth: true }
-        }
-      ]
-    },
-    {
-      path: "/",
-      name: "Admin",
-      component: Admin,
-      children: [
-        {
-          path: "customer-order",
-          name: "customer-order",
-          component: CustomerOrder
-        },
-        {
-          path: "customer-checkout",
-          name: "customer-checkout",
-          component: CustomerCheckout
         }
       ]
     }
