@@ -121,7 +121,6 @@
         </div>
       </div>
     </div>
-
     <FooterBar />
   </div>
 </template>
@@ -186,9 +185,9 @@ export default {
         qty
       };
 
-      vm.$store.state.isLoading = true;
+      vm.$store.dispatch("updateLoading", true);
       vm.axios.post(api, { data: item }).then(() => {
-        vm.$store.state.isLoading = false;
+        vm.$store.dispatch("updateLoading", false);
       });
     },
     // 取得商品列表
@@ -198,9 +197,9 @@ export default {
         process.env.VUE_APP_API_PATH
       }/products?page=${page}`;
 
-      vm.$store.state.isLoading = true;
+      vm.$store.dispatch("updateLoading", true);
       vm.axios.get(api).then(response => {
-        vm.$store.state.isLoading = false;
+        vm.$store.dispatch("updateLoading", false);
         if (response.data.success) {
           vm.pagination = response.data.pagination; // 分頁
           vm.products = response.data.products; // 產品

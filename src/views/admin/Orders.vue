@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Loading :active.sync="isLoading"></Loading>
     <table class="table mt-4">
       <thead>
         <tr>
@@ -52,7 +51,6 @@ export default {
   },
   data() {
     return {
-      isLoading: false,
       isNew: false,
       orders: {},
       pagination: {}
@@ -82,11 +80,11 @@ export default {
         process.env.VUE_APP_API_PATH
       }/admin/orders?page=${currentPage}`;
 
-      vm.isLoading = true;
+      vm.$store.dispatch("updateLoading", true);
       vm.axios.get(api, vm.tempProduct).then(response => {
         vm.orders = response.data.orders;
         vm.pagination = response.data.pagination;
-        vm.isLoading = false;
+        vm.$store.dispatch("updateLoading", false);
       });
     }
   }

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <loading :active.sync="isLoading"></loading>
     <div class="row mt-4">
       <div class="col-md-4 mb-4" v-for="item in products" :key="item.id">
         <div class="card border-0 shadow-sm">
@@ -289,7 +288,6 @@ export default {
           tel: ""
         }
       },
-      isLoading: false,
       product: {},
       products: [],
       status: {
@@ -312,9 +310,9 @@ export default {
         code: vm.coupon_code
       };
 
-      vm.isLoading = true;
+      vm.$store.dispatch("updateLoading", true);
       vm.axios.post(api, { data: coupon }).then(response => {
-        vm.isLoading = false;
+        vm.$store.dispatch("updateLoading", false);
         if (response.data.success) {
           vm.$bus.$emit("message:push", response.data.message, "success");
           vm.getCart();
@@ -352,11 +350,11 @@ export default {
       }/order`;
       const order = vm.form;
 
-      vm.isLoading = true;
+      vm.$store.dispatch("updateLoading", true);
       vm.$validator.validate().then(result => {
         if (result) {
           vm.axios.post(api, { data: order }).then(response => {
-            vm.isLoading = false;
+            vm.$store.dispatch("updateLoading", false);
             if (response.data.success) {
               vm.$bus.$emit("message:push", "訂單已建立", "success");
               vm.$router.push(`/customer-checkout/${response.data.orderId}`);
@@ -376,9 +374,9 @@ export default {
         process.env.VUE_APP_API_PATH
       }/cart`;
 
-      vm.isLoading = true;
+      vm.$store.dispatch("updateLoading", true);
       vm.axios.get(api).then(response => {
-        vm.isLoading = false;
+        vm.$store.dispatch("updateLoading", false);
         if (response.data.success) {
           vm.$bus.$emit("message:push", response.data.message, "success");
           vm.cart = response.data.data;
@@ -413,9 +411,9 @@ export default {
         process.env.VUE_APP_API_PATH
       }/products`;
 
-      vm.isLoading = true;
+      vm.$store.dispatch("updateLoading", true);
       vm.axios.get(api).then(response => {
-        vm.isLoading = false;
+        vm.$store.dispatch("updateLoading", false);
         if (response.data.success) {
           vm.products = response.data.products;
           vm.$bus.$emit("message:push", response.data.message, "success");
@@ -431,9 +429,9 @@ export default {
         process.env.VUE_APP_API_PATH
       }/cart/${id}`;
 
-      vm.isLoading = true;
+      vm.$store.dispatch("updateLoading", true);
       vm.axios.delete(api).then(response => {
-        vm.isLoading = false;
+        vm.$store.dispatch("updateLoading", false);
         if (response.data.success) {
           vm.$bus.$emit("message:push", response.data.message, "success");
           vm.getCart();

@@ -7,6 +7,14 @@ export default new Vuex.Store({
   state: {
     isLoading: false
   },
-  mutations: {},
-  actions: {}
+  mutations: {
+    LOADING(state, payload) {
+      state.isLoading = payload;
+    }
+  },
+  actions: {
+    updateLoading(context, payload) {
+      context.commit("LOADING", payload);
+    }
+  }
 });

@@ -80,9 +80,10 @@ export default {
       const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/order/${
         vm.orderId
       }`;
-      vm.isLoading = true;
+
+      vm.$store.dispatch("updateLoading", true);
       vm.axios.get(api).then(response => {
-        vm.isLoading = false;
+        vm.$store.dispatch("updateLoading", false);
         if (response.data.success) {
           vm.$bus.$emit("message:push", response.data.message, "success");
           vm.order = response.data.order;
@@ -96,9 +97,10 @@ export default {
       const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/pay/${
         vm.orderId
       }`;
-      vm.isLoading = true;
+
+      vm.$store.dispatch("updateLoading", true);
       vm.axios.post(api).then(response => {
-        vm.isLoading = false;
+        vm.$store.dispatch("updateLoading", false);
         if (response.data.success) {
           vm.$bus.$emit("message:push", response.data.message, "success");
           vm.getOrder();

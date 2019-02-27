@@ -1,6 +1,7 @@
 <template>
   <div>
     <AlertMessage />
+    <Loading :active.sync="isLoading" />
     <NavBar />
     <div class="container-fluid">
       <div class="row">

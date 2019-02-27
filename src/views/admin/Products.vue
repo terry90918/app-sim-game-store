@@ -1,6 +1,5 @@
 <template>
   <div>
-    <loading :active.sync="isLoading"></loading>
     <!-- 建立新產品 -->
     <div class="d-flex my-3">
       <h2>Section title</h2>
@@ -285,7 +284,6 @@ export default {
   },
   data() {
     return {
-      isLoading: false,
       isNew: false,
       pagination: {},
       products: [],
@@ -323,9 +321,9 @@ export default {
         process.env.VUE_APP_API_PATH
       }/products?page=${page}`;
 
-      vm.isLoading = true; // 開始 - 過場動畫
+      vm.$store.dispatch("updateLoading", true); // 開始 - 過場動畫
       vm.axios.get(api).then(response => {
-        vm.isLoading = false; // 結束 - 過場動畫
+        vm.$store.dispatch("updateLoading", false); // 結束 - 過場動畫
         if (response.data.success) {
           vm.pagination = response.data.pagination; // 分頁
           vm.products = response.data.products; // 產品
