@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 
-import Admin from "./views/admin/Admin.vue";
+import Admin from "./views/Admin.vue";
 import Coupons from "./views/admin/Coupons.vue";
 import CustomerOrder from "./views/admin/CustomerOrders";
 import CustomerCheckout from "./views/admin/CustomerCheckout";

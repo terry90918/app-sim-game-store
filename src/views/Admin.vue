@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import AlertMessage from "@/components/admin/AlertMessage";
+import AlertMessage from "@/components/AlertMessage";
 import NavBar from "@/components/admin/Navbar";
 import Sidebar from "@/components/admin/Sidebar";
 
