@@ -1,6 +1,7 @@
 <template>
   <div>
     <AlertMessage />
+    <Loading :active.sync="isLoading" />
     <NavBar />
     <div class="jumbotron jumbotron-fluid jumbotron-bg d-flex align-items-end">
       <div class="container">
@@ -10,10 +11,7 @@
         </div>
       </div>
     </div>
-
-    <Loading :active.sync="isLoading"></Loading>
     <div class="container main-content mb-3">
-      <Loading :active.sync="isLoading"></Loading>
       <div class="row">
         <div class="col-md-3">
           <!-- 左側選單 (List group) -->
@@ -149,7 +147,6 @@ export default {
         carts: []
       },
       categories: [],
-      isLoading: false,
       pagination: {},
       products: [],
       searchText: ""
@@ -167,6 +164,10 @@ export default {
         });
       }
       return vm.products;
+    },
+    isLoading() {
+      const vm = this;
+      return vm.$store.state.isLoading;
     }
   },
   mounted() {
@@ -184,9 +185,10 @@ export default {
         product_id: id,
         qty
       };
-      vm.isLoading = true;
+
+      vm.$store.state.isLoading = true;
       vm.axios.post(api, { data: item }).then(() => {
-        vm.isLoading = false;
+        vm.$store.state.isLoading = false;
       });
     },
     // 取得商品列表
@@ -196,9 +198,9 @@ export default {
         process.env.VUE_APP_API_PATH
       }/products?page=${page}`;
 
-      vm.isLoading = true;
+      vm.$store.state.isLoading = true;
       vm.axios.get(api).then(response => {
-        vm.isLoading = false;
+        vm.$store.state.isLoading = false;
         if (response.data.success) {
           vm.pagination = response.data.pagination; // 分頁
           vm.products = response.data.products; // 產品
@@ -212,6 +214,7 @@ export default {
     getUnique() {
       const vm = this;
       const categories = new Set(); // http://es6.ruanyifeng.com/#docs/set-map
+
       vm.products.forEach(item => {
         categories.add(item.category);
       });

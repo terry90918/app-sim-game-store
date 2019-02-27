@@ -74,9 +74,9 @@ export default {
         process.env.VUE_APP_API_PATH
       }/cart`;
 
-      vm.isLoading = true;
+      vm.$store.state.isLoading = true;
       vm.axios.get(api).then(response => {
-        vm.isLoading = false;
+        vm.$store.state.isLoading = false;
         if (response.data.data.carts) {
           vm.cart = response.data.data;
         }
@@ -89,9 +89,9 @@ export default {
         process.env.VUE_APP_API_PATH
       }/cart/${id}`;
 
-      vm.isLoading = true;
+      vm.$store.state.isLoading = true;
       vm.axios.delete(api).then(response => {
-        vm.isLoading = false;
+        vm.$store.state.isLoading = false;
         if (response.data.success) {
           vm.getCart();
         }
