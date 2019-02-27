@@ -1,5 +1,17 @@
 <template>
   <div>
+    <AlertMessage />
+    <NavBar />
+    <div class="jumbotron jumbotron-fluid jumbotron-bg d-flex align-items-end">
+      <div class="container">
+        <div class="p-3 bg-lighter">
+          <h1 class="display-3 font-weight-bold">輕鬆玩遊戲</h1>
+          <p class="lead">最後出清！買到剁手手！</p>
+        </div>
+      </div>
+    </div>
+
+    <Loading :active.sync="isLoading"></Loading>
     <div class="container main-content mb-3">
       <Loading :active.sync="isLoading"></Loading>
       <div class="row">
@@ -14,8 +26,8 @@
               v-for="item in categories"
               :key="item"
             >
-              <i class="fa fa-street-view" aria-hidden="true"></i>
-              <span>{{ item }}</span>
+              <font-awesome-icon icon="street-view" />
+              <span class="ml-1">{{ item }}</span>
             </a>
             <a
               href="#"
@@ -23,7 +35,7 @@
               @click.prevent="searchText = ''"
               :class="{ active: searchText === '' }"
             >
-              全部顯示
+              <span>全部顯示</span>
             </a>
           </div>
         </div>
@@ -47,7 +59,7 @@
                     type="button"
                     @click="searchText = ''"
                   >
-                    <i class="fa fa-times"></i>
+                    <font-awesome-icon icon="times" />
                   </button>
                 </div>
               </div>
@@ -69,16 +81,26 @@
                 v-for="item in filterData"
                 :key="item.id"
               >
-                <div class="card border-0 box-shadow text-center h-100">
+                <div class="card box-shadow h-100">
                   <img
                     class="card-img-top"
                     :src="item.imageUrl"
                     alt="Card image cap"
                   />
                   <div class="card-body">
-                    <h4 class="card-title">{{ item.title }}</h4>
+                    <h4 class="card-title">
+                      {{
+                        item.title.length > 10
+                          ? item.title.slice(0, 10) + "..."
+                          : item.title
+                      }}
+                    </h4>
                     <p class="card-text text-left">
-                      {{ item.content.slice(0, 50) + "..." }}
+                      {{
+                        item.content.length > 100
+                          ? item.content.slice(0, 100) + "..."
+                          : item.content
+                      }}
                     </p>
                   </div>
                   <div class="card-footer border-top-0 bg-white">
@@ -86,7 +108,7 @@
                       class="btn btn-outline-secondary btn-block btn-sm"
                       @click="addtoCart(item.id)"
                     >
-                      <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                      <font-awesome-icon icon="cart-plus" />
                       加到購物車
                     </button>
                   </div>
@@ -94,23 +116,38 @@
               </div>
             </div>
           </div>
+          <Pagination
+            @update:pagination="getProducts"
+            :pagination="pagination"
+          />
         </div>
       </div>
     </div>
+
+    <FooterBar />
   </div>
 </template>
 
 <script>
 // import $ from "jquery";
-// import Pagination from "@/components/admin/Pagination";
+import AlertMessage from "@/components/home/AlertMessage";
+import FooterBar from "@/components/home/FooterBar";
+import NavBar from "@/components/home/NavBar";
+import Pagination from "@/components/home/Pagination";
 
 export default {
   name: "home",
-  // components: {
-  //   Pagination
-  // },
+  components: {
+    AlertMessage,
+    FooterBar,
+    NavBar,
+    Pagination
+  },
   data() {
     return {
+      cart: {
+        carts: []
+      },
       categories: [],
       isLoading: false,
       pagination: {},
@@ -137,6 +174,22 @@ export default {
     vm.getProducts();
   },
   methods: {
+    // 加入購物車
+    addtoCart(id, qty = 1) {
+      const vm = this;
+      const api = `${process.env.VUE_APP_API}/api/${
+        process.env.VUE_APP_API_PATH
+      }/cart`;
+      const item = {
+        product_id: id,
+        qty
+      };
+      vm.isLoading = true;
+      vm.axios.post(api, { data: item }).then(() => {
+        vm.isLoading = false;
+      });
+    },
+    // 取得商品列表
     getProducts(page = 1) {
       const vm = this;
       const api = `${process.env.VUE_APP_API}/api/${
@@ -155,23 +208,10 @@ export default {
         }
       });
     },
-    addtoCart(id, qty = 1) {
-      const vm = this;
-      const api = `${process.env.VUE_APP_API}/api/${
-        process.env.VUE_APP_API_PATH
-      }/cart`;
-      const item = {
-        product_id: id,
-        qty
-      };
-      vm.isLoading = true;
-      vm.axios.post(api, { data: item }).then(() => {
-        vm.isLoading = false;
-      });
-    },
+    // 排除重複分類
     getUnique() {
       const vm = this;
-      const categories = new Set();
+      const categories = new Set(); // http://es6.ruanyifeng.com/#docs/set-map
       vm.products.forEach(item => {
         categories.add(item.category);
       });
@@ -180,3 +220,46 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.jumbotron-bg {
+  /* banners.png */
+  // Photo by Pawel Kadysz on Unsplash
+  background-image: url(~@/assets/image/lum3n-250309-unsplash.jpg);
+  background-size: cover;
+  background-position: center center;
+  min-height: 400px;
+}
+/* 半透明背景 */
+.bg-lighter {
+  background-color: rgba(255, 255, 255, 0.45);
+}
+/* 購物車按鈕 */
+.btn-cart {
+  background-color: transparent;
+  position: relative;
+  /* 購物車按鈕定位 */
+  .badge {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+  }
+}
+.main-content {
+  min-height: calc(100vh - 56px - 176px);
+}
+.box-shadow {
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
+  transition: 0.3s linear;
+  &:hover {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.08);
+  }
+}
+.dropdown-menu-right {
+  right: 0;
+  left: auto;
+}
+.alert-rounded {
+  border-radius: 50px;
+}
+</style>
