@@ -42,7 +42,7 @@
         <div class="col-md-9">
           <div class="d-flex mb-4">
             <!-- Search bar -->
-            <form class="form-inline my-3 my-lg-0">
+            <form class="form-inline my-lg-0">
               <div class="input-group">
                 <input
                   class="form-control"
@@ -142,21 +142,19 @@ export default {
   },
   data() {
     return {
-      cart: {
-        carts: []
-      },
-      categories: [],
-      pagination: {},
-      products: [],
       searchText: ""
     };
   },
   computed: {
+    categories() {
+      const vm = this;
+      return vm.$store.state.categories;
+    },
     filterData() {
       const vm = this;
       if (vm.searchText) {
         return vm.products.filter(item => {
-          const data = item.title
+          const data = item.category
             .toLowerCase()
             .includes(vm.searchText.toLowerCase());
           return data;
@@ -167,6 +165,14 @@ export default {
     isLoading() {
       const vm = this;
       return vm.$store.state.isLoading;
+    },
+    pagination() {
+      const vm = this;
+      return vm.$store.state.pagination;
+    },
+    products() {
+      const vm = this;
+      return vm.$store.state.products;
     }
   },
   mounted() {
@@ -193,21 +199,7 @@ export default {
     // 取得商品列表
     getProducts(page = 1) {
       const vm = this;
-      const api = `${process.env.VUE_APP_API}/api/${
-        process.env.VUE_APP_API_PATH
-      }/products?page=${page}`;
-
-      vm.$store.dispatch("updateLoading", true);
-      vm.axios.get(api).then(response => {
-        vm.$store.dispatch("updateLoading", false);
-        if (response.data.success) {
-          vm.pagination = response.data.pagination; // 分頁
-          vm.products = response.data.products; // 產品
-          vm.getUnique();
-        } else {
-          vm.$bus.$emit("message:push", response.data.message, "danger");
-        }
-      });
+      vm.$store.dispatch("getProducts", page);
     },
     // 排除重複分類
     getUnique() {
