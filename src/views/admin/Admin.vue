@@ -25,6 +25,12 @@ export default {
     AlertMessage,
     NavBar,
     Sidebar
+  },
+  computed: {
+    isLoading() {
+      const vm = this;
+      return vm.$store.state.isLoading;
+    }
   }
 };
 </script>
