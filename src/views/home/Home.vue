@@ -159,14 +159,16 @@ export default {
       }
       return vm.products;
     },
-    ...mapGetters(["categories", "isLoading", "pagination", "products"])
+    ...mapGetters(["isLoading"]),
+    ...mapGetters("productsModules", ["categories", "pagination", "products"])
   },
   mounted() {
     const vm = this;
     vm.getProducts();
   },
   methods: {
-    ...mapActions(["addtoCart", "getProducts"])
+    ...mapActions("cartsModules", ["addtoCart"]),
+    ...mapActions("productsModules", ["getProducts"])
   }
 };
 </script>

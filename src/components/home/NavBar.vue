@@ -59,14 +59,14 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "nav-bar",
   computed: {
-    ...mapGetters(["cart"])
+    ...mapGetters("cartsModules", ["cart"])
   },
   mounted() {
     const vm = this;
     vm.getCart();
   },
   methods: {
-    ...mapActions(["getCart", "removeCart"])
+    ...mapActions("cartsModules", ["getCart", "removeCart"])
   }
 };
 </script>
