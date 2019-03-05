@@ -1,11 +1,11 @@
 import Vue from "vue";
 import Router from "vue-router";
 
-import Admin from "./views/Admin.vue";
+import Admin from "./views/admin/Admin.vue";
 import Coupons from "./views/admin/Coupons.vue";
 import CustomerOrder from "./views/admin/CustomerOrders";
 import CustomerCheckout from "./views/admin/CustomerCheckout";
-import Home from "./views/Home.vue";
+import Home from "./views/home/Home.vue";
 import Login from "./views/auth/Login.vue";
 import DashboardMain from "./views/admin/DashboardMain.vue";
 import Orders from "./views/admin/Orders.vue";
