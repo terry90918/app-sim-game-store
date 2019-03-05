@@ -75,7 +75,7 @@
             <div class="row align-items-stretch">
               <!-- 禮品 -->
               <div
-                class="col-md-4 mb-4"
+                class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-4"
                 v-for="item in filterData"
                 :key="item.id"
               >
@@ -126,6 +126,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 // import $ from "jquery";
 import AlertMessage from "@/components/home/AlertMessage";
 import FooterBar from "@/components/home/FooterBar";
@@ -146,10 +147,6 @@ export default {
     };
   },
   computed: {
-    categories() {
-      const vm = this;
-      return vm.$store.state.categories;
-    },
     filterData() {
       const vm = this;
       if (vm.searchText) {
@@ -162,44 +159,14 @@ export default {
       }
       return vm.products;
     },
-    isLoading() {
-      const vm = this;
-      return vm.$store.state.isLoading;
-    },
-    pagination() {
-      const vm = this;
-      return vm.$store.state.pagination;
-    },
-    products() {
-      const vm = this;
-      return vm.$store.state.products;
-    }
+    ...mapGetters(["categories", "isLoading", "pagination", "products"])
   },
   mounted() {
     const vm = this;
     vm.getProducts();
   },
   methods: {
-    // 加入購物車
-    addtoCart(id, qty = 1) {
-      const vm = this;
-      vm.$store.dispatch("addtoCart", { id, qty });
-    },
-    // 取得商品列表
-    getProducts(page = 1) {
-      const vm = this;
-      vm.$store.dispatch("getProducts", page);
-    },
-    // 排除重複分類
-    getUnique() {
-      const vm = this;
-      const categories = new Set(); // http://es6.ruanyifeng.com/#docs/set-map
-
-      vm.products.forEach(item => {
-        categories.add(item.category);
-      });
-      vm.categories = Array.from(categories);
-    }
+    ...mapActions(["addtoCart", "getProducts"])
   }
 };
 </script>

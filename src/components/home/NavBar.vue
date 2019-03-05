@@ -54,28 +54,19 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+
 export default {
+  name: "nav-bar",
   computed: {
-    cart() {
-      const vm = this;
-      return vm.$store.state.cart;
-    }
+    ...mapGetters(["cart"])
   },
   mounted() {
     const vm = this;
     vm.getCart();
   },
   methods: {
-    // 取得購物車
-    getCart() {
-      const vm = this;
-      vm.$store.dispatch("getCart");
-    },
-    // 刪除購物車項目
-    removeCart(id) {
-      const vm = this;
-      vm.$store.dispatch("removeCart", { id });
-    }
+    ...mapActions(["getCart", "removeCart"])
   }
 };
 </script>

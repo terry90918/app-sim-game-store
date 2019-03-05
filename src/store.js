@@ -20,6 +20,7 @@ export default new Vuex.Store({
       state.cart = payload;
     },
     CATEGORIES(state, payload) {
+      // 排除重複分類
       const categories = new Set();
       payload.forEach(item => {
         categories.add(item.category);
@@ -37,6 +38,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    // 加入購物車
     addtoCart(context, payload) {
       const api = `${process.env.VUE_APP_API}/api/${
         process.env.VUE_APP_API_PATH
@@ -51,6 +53,7 @@ export default new Vuex.Store({
         context.commit("LOADING", false);
       });
     },
+    // 取得購物車
     getCart(context) {
       const api = `${process.env.VUE_APP_API}/api/${
         process.env.VUE_APP_API_PATH
@@ -64,6 +67,7 @@ export default new Vuex.Store({
         }
       });
     },
+    // 取得商品列表
     getProducts(context, payload) {
       let page = payload || 1;
       const api = `${process.env.VUE_APP_API}/api/${
@@ -80,6 +84,7 @@ export default new Vuex.Store({
         }
       });
     },
+    // 刪除購物車項目
     removeCart(context, payload) {
       let id = payload.id;
       const api = `${process.env.VUE_APP_API}/api/${
@@ -94,8 +99,16 @@ export default new Vuex.Store({
         }
       });
     },
+    // 更新讀取效果
     updateLoading(context, payload) {
       context.commit("LOADING", payload);
     }
+  },
+  getters: {
+    cart: state => state.cart,
+    categories: state => state.categories,
+    isLoading: state => state.isLoading,
+    pagination: state => state.pagination,
+    products: state => state.products
   }
 });
