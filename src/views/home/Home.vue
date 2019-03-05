@@ -183,18 +183,7 @@ export default {
     // 加入購物車
     addtoCart(id, qty = 1) {
       const vm = this;
-      const api = `${process.env.VUE_APP_API}/api/${
-        process.env.VUE_APP_API_PATH
-      }/cart`;
-      const item = {
-        product_id: id,
-        qty
-      };
-
-      vm.$store.dispatch("updateLoading", true);
-      vm.axios.post(api, { data: item }).then(() => {
-        vm.$store.dispatch("updateLoading", false);
-      });
+      vm.$store.dispatch("addtoCart", { id, qty });
     },
     // 取得商品列表
     getProducts(page = 1) {

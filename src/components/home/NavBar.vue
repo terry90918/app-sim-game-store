@@ -55,12 +55,11 @@
 
 <script>
 export default {
-  data() {
-    return {
-      cart: {
-        carts: []
-      }
-    };
+  computed: {
+    cart() {
+      const vm = this;
+      return vm.$store.state.cart;
+    }
   },
   mounted() {
     const vm = this;
@@ -70,32 +69,12 @@ export default {
     // 取得購物車
     getCart() {
       const vm = this;
-      const api = `${process.env.VUE_APP_API}/api/${
-        process.env.VUE_APP_API_PATH
-      }/cart`;
-
-      vm.$store.dispatch("updateLoading", true);
-      vm.axios.get(api).then(response => {
-        vm.$store.dispatch("updateLoading", false);
-        if (response.data.data.carts) {
-          vm.cart = response.data.data;
-        }
-      });
+      vm.$store.dispatch("getCart");
     },
     // 刪除購物車項目
     removeCart(id) {
       const vm = this;
-      const api = `${process.env.VUE_APP_API}/api/${
-        process.env.VUE_APP_API_PATH
-      }/cart/${id}`;
-
-      vm.$store.dispatch("updateLoading", true);
-      vm.axios.delete(api).then(response => {
-        vm.$store.dispatch("updateLoading", false);
-        if (response.data.success) {
-          vm.getCart();
-        }
-      });
+      vm.$store.dispatch("removeCart", { id });
     }
   }
 };
