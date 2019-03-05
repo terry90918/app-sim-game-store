@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+import actions from "./actions";
+import mutations from "./mutations";
 import cartsModules from "./modules/carts";
 import productsModules from "./modules/products";
 
@@ -14,6 +16,8 @@ export default new Vuex.Store({
   getters: {
     isLoading: state => state.isLoading
   },
+  mutations,
+  actions,
   modules: {
     cartsModules,
     productsModules

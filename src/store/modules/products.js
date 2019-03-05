@@ -9,7 +9,6 @@ export default {
   },
   getters: {
     categories: state => state.categories,
-    isLoading: state => state.isLoading,
     pagination: state => state.pagination,
     products: state => state.products
   },
