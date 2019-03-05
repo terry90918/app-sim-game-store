@@ -49,8 +49,11 @@ export default new Vuex.Store({
       };
 
       context.commit("LOADING", true);
-      axios.post(api, { data: item }).then(() => {
+      axios.post(api, { data: item }).then(response => {
         context.commit("LOADING", false);
+        if (response.data.success) {
+          context.dispatch("getCart");
+        }
       });
     },
     // 取得購物車

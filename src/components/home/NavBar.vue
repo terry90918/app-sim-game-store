@@ -31,7 +31,7 @@
                   <a
                     href="#"
                     class="text-muted"
-                    @click.prevent="removeCart(item.id)"
+                    @click.prevent="removeCart({ id: item.id })"
                   >
                     <font-awesome-icon icon="trash-alt" />
                   </a>

@@ -104,7 +104,7 @@
                   <div class="card-footer border-top-0 bg-white">
                     <button
                       class="btn btn-outline-secondary btn-block btn-sm"
-                      @click="addtoCart(item.id)"
+                      @click="addtoCart({ id: item.id, qty: 1 })"
                     >
                       <font-awesome-icon icon="cart-plus" />
                       加到購物車
