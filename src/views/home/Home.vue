@@ -95,8 +95,8 @@
                     </h4>
                     <p class="card-text text-left">
                       {{
-                        item.content.length > 100
-                          ? item.content.slice(0, 100) + "..."
+                        item.content.length > 25
+                          ? item.content.slice(0, 25) + "..."
                           : item.content
                       }}
                     </p>
