@@ -352,9 +352,9 @@ export default {
 
       vm.$store.dispatch("updateLoading", true);
       vm.$validator.validate().then(result => {
+        vm.$store.dispatch("updateLoading", false);
         if (result) {
           vm.axios.post(api, { data: order }).then(response => {
-            vm.$store.dispatch("updateLoading", false);
             if (response.data.success) {
               vm.$bus.$emit("message:push", "訂單已建立", "success");
               vm.$router.push(`/customer-checkout/${response.data.orderId}`);
